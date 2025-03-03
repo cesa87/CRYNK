@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: 677276115846.dkr.ecr.eu-north-1.amazonaws.com/crynk-frontend:v1
+        image: gcr.io/crynk-452620/crynk-frontend:[IMAGE_TAG]
         ports:
         - containerPort: 80
