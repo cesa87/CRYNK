@@ -36,7 +36,7 @@ COPY --from=build /app/target/release/crynk-backend /usr/local/bin/crynk-backend
 EXPOSE 8080
 
 # Set the environment variables (if needed)
-ENV "DATABASE_URL mysql://crynk:1NeSSie$21987@crynk-cluster-db.czc00ei667ah.eu-north-1.rds.amazonaws.com:3306/crynk"
+ENV "DATABASE_URL=mysql://crynk:1NeSSie$21987@/crynk?host=/cloudsql/crynk-452620:us-central1:crynk-mysql-db"
 
 # Run the backend
 CMD ["crynk-backend"]
