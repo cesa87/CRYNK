@@ -1,0 +1,35 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: |
+          cd frontend    # Go into the frontend directory
+          npm install
+
+      - name: Build React App
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Build and Push Docker Image
+        run: |
+          cd frontend
+          docker build -t your-dockerhub-username/frontend:latest .
+          docker push your-dockerhub-username/frontend:latest
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f frontend/k8s/deployment.yaml
+          kubectl apply -f frontend/k8s/service.yaml
