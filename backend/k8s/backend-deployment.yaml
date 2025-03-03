@@ -17,6 +17,6 @@ spec:
         image: 677276115846.dkr.ecr.eu-north-1.amazonaws.com/crynk-backend:v4
         env:
         - name: DATABASE_URL
-          value: 'postgresql://crynk:1NeSSie$21987@crynk-user-db.czc00ei667ah.eu-north-1.rds.amazonaws.com:5432/crynk'
+          value: 'mysql://crynk:1NeSSie$21987@/crynk?host=/cloudsql/crynk-452620:us-central1:crynk-mysql-db'
         ports:
         - containerPort: 8080
