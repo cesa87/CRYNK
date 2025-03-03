@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: 677276115846.dkr.ecr.eu-north-1.amazonaws.com/crynk-backend:v4
+        env:
+        - name: DATABASE_URL
+          value: 'postgresql://crynk:1NeSSie$21987@crynk-user-db.czc00ei667ah.eu-north-1.rds.amazonaws.com:5432/crynk'
+        ports:
+        - containerPort: 8080
