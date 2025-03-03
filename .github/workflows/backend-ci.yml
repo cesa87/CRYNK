@@ -1,12 +1,12 @@
-name: Deploy Backend to EKS
+name: Deploy Backend to GKE
 
 on:
   push:
     branches:
       - main
-    paths:
-      - 'backend/**'
-      - '.github/workflows/backend-ci.yml'
+    #paths:
+     # - 'backend/**'
+      #- '.github/workflows/backend-ci.yml'
 
 jobs:
   build-and-deploy:
@@ -25,23 +25,30 @@ jobs:
           cd backend
           cargo build --release
 
-      - name: Build and Push Docker Image to ECR
+      - name: Set Up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
+      - name: Build and Push Docker Image to GCR
         run: |
           cd backend
-          ECR_REPOSITORY=677276115846.dkr.ecr.eu-north-1.amazonaws.com/crynk-backend #ECR URI
+          GCR_REPOSITORY=gcr.io/${{ secrets.GCP_PROJECT_ID }}/crynk-backend
           IMAGE_TAG=$(git rev-parse --short HEAD)
 
           # Replace the image tag in the deployment YAML
-          sed -i "s|image:.*|image: $ECR_REPOSITORY:$IMAGE_TAG|" k8s/backend-deployment.yaml
+          sed -i "s|image:.*|image: $GCR_REPOSITORY:$IMAGE_TAG|" k8s/backend-deployment.yaml
           
           # Build the Docker image
-          docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
+          docker build -t $GCR_REPOSITORY:$IMAGE_TAG .
           
-          # Push the Docker image to ECR
-          docker push $ECR_REPOSITORY:$IMAGE_TAG
+          # Push the Docker image to GCR
+          docker push $GCR_REPOSITORY:$IMAGE_TAG
 
-      - name: Deploy to EKS
+      - name: Deploy to GKE
         run: |
-          aws eks update-kubeconfig --name crynk-cluster --region eu-north-1
+          gcloud container clusters get-credentials crynk-cluster --zone=us-central1-a
           kubectl apply -f backend/k8s/backend-deployment.yaml
           kubectl apply -f backend/k8s/backend-service.yaml
