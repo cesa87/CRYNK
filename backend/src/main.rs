@@ -80,7 +80,7 @@ async fn register_user(
     };
 
     // Insert the user into the database
-    let result = sqlx::query!(
+    let result = sqlx::query(
         "INSERT INTO crynk_users (first_name, last_name, email, mobile, username, password_hash) VALUES (?, ?, ?, ?, ?, ?)",
         user.first_name,
         user.last_name,
