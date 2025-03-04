@@ -26,7 +26,7 @@ Structure
 
 Deployment Pipeline
 
-GitHub Actions Workflows
+GitHub Actions Workflow
 
 The repository includes two CI/CD workflows:
 
