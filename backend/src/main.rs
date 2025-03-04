@@ -33,7 +33,7 @@ async fn login(
     credentials: web::Json<LoginRequest>,
 ) -> impl Responder {
     // Fetch user from the database
-    let result = sqlx::query!(
+    let result = sqlx::query(
         "SELECT id, username, password_hash FROM crynk_users WHERE username = ?",
         credentials.username
     )
