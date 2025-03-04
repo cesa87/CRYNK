@@ -35,8 +35,5 @@ COPY --from=build /app/target/release/crynk-backend /usr/local/bin/crynk-backend
 # Expose the backend port
 EXPOSE 8080
 
-# Set the environment variables (if needed)
-ENV "DATABASE_URL=mysql://crynk:1NeSSie$21987@/crynk?host=/cloudsql/crynk-452620:us-central1:crynk-mysql-db"
-
 # Run the backend
 CMD ["crynk-backend"]
