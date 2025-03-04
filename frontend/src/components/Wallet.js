@@ -1,4 +1,4 @@
-:slint-disable no-unused-vars
+slint-disable no-unused-vars
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import metamaskLogo from "../Metamask-logo.png";
