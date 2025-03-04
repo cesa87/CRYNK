@@ -27,6 +27,9 @@ jobs:
           npm install
           npm run build
 
+      - name: Activate Account
+        run: gcloud config set account github-developer@crynk-452620.iam.gserviceaccount.com
+
       - name: Check Active Account
         run: gcloud auth list
 
