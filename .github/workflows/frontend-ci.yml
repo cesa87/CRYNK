@@ -34,6 +34,9 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
 
+      - name: Auth Docker to GCR
+        run: gcloud auth configure-docker --quiet
+
       - name: Build and Push Docker Image to GCR
         run: |
           cd frontend
