@@ -4,7 +4,7 @@ Overview
 
 CRYNK is a full-stack application with a React frontend, a Rust backend, and an AWS RDS database, deployed to an Amazon EKS cluster using GitHub Actions for CI/CD.
 
-Repository Structure
+Structure
 
 /frontend                # React frontend application
 │── /src                # Source code
