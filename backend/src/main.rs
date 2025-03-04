@@ -1,6 +1,7 @@
 use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 use serde::{Deserialize, Serialize};
 use sqlx::MySqlPool;
+use sqlx::Row;
 use dotenv::dotenv;
 use std::env;
 use bcrypt::{verify, hash, DEFAULT_COST};
