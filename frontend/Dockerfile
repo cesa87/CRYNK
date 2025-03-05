@@ -1,25 +1,25 @@
 # Official Node.js runtime as the base image
 FROM node:18-alpine as build
 
-# Set the working directory
+# Set working directory
 WORKDIR /app
 
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies
+# dependencies
 RUN npm install
 
-# Copy the rest of the application code
+# Copy application code
 COPY . .
 
-# Build the React app
+# Build React app
 RUN npm run build
 
-# Use a lightweight web server to serve the static files
+# lightweight web server to serve the static files
 FROM nginx:alpine
 
-# Copy the built React app to the Nginx web server directory
+# Copy the built React app to the Nginx directory
 COPY --from=build /app/build /usr/share/nginx/html
 
 # Expose port 80
