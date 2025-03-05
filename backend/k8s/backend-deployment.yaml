@@ -41,6 +41,7 @@ spec:
           periodSeconds: 10
       - name: cloud-sql-proxy
         image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:latest
+        command: ["/cloud_sql_proxy"]
         args:
         - "--structured-logs"
         - "--port=3306"
