@@ -37,6 +37,11 @@ jobs:
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
+      - name: Install GKE Auth Plugin
+        run: |
+          gcloud components install gke-gcloud-auth-plugin -q
+          export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
       - name: Authenticate Docker to GCR
         run: |
           gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://gcr.io
