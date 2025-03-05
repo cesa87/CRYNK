@@ -47,8 +47,6 @@ spec:
         - "--structured-logs"
         - "--port=3306"
         - "crynk-452620:us-central1:crynk-mysql-db"
-        securityContext:
-          runAsNonRoot: true
         # Add resource requests and limits for the cloud-sql-proxy
         resources:
           requests:
