@@ -1,0 +1,62 @@
+name: Deploy Backend to GKE
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-ci.yml'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Rust
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          source $HOME/.cargo/env
+          rustup default stable
+
+      - name: Build Backend
+        run: |
+          cd backend
+          cargo build --release
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set Up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Install GKE Auth Plugin
+        run: |
+          gcloud components install gke-gcloud-auth-plugin -q
+          export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+      - name: Authenticate Docker to GCR
+        run: |
+          gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://gcr.io
+
+      - name: Build and Push Docker Image to GCR
+        run: |
+          cd backend
+          GCR_REPOSITORY=gcr.io/${{ secrets.GCP_PROJECT_ID }}/crynk-backend
+          IMAGE_TAG=$(git rev-parse --short HEAD)
+          sed -i "s|image:.*|image: $GCR_REPOSITORY:$IMAGE_TAG|" k8s/backend-deployment.yaml
+          docker build -t $GCR_REPOSITORY:$IMAGE_TAG .
+          docker push $GCR_REPOSITORY:$IMAGE_TAG
+
+      - name: Deploy to GKE
+        run: |
+          gcloud container clusters get-credentials crynk-cluster --zone=us-central1-a
+          kubectl apply -f backend/k8s/backend-deployment.yaml
+          kubectl apply -f backend/k8s/backend-service.yaml
