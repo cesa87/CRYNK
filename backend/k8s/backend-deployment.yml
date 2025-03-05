@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: gcr.io/crynk-452620/crynk-backend:[IMAGE_TAG]
+        env:
+        - name: DATABASE_URL
+          value: 'mysql://crynk:1NeSSie$21987@/crynk?host=/cloudsql/crynk-452620:us-central1:crynk-mysql-db'
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"  # 0.1 vCPU
+          limits:
+            memory: "256Mi"
+            cpu: "500m"  # 0.5 vCPU
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+      - name: cloud-sql-proxy
+        image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:latest
+        args:
+        - "--structured-logs"
+        - "--port=3306"
+        - "crynk-452620:us-central1:crynk-mysql-db"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"  # 0.25 vCPU
+          limits:
+            memory: "256Mi"
+            cpu: "500m"  # 0.5 vCPU
