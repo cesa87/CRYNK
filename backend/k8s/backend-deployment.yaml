@@ -23,10 +23,10 @@ spec:
         resources:
           requests:
             memory: "256Mi"
-            cpu: "500m"
+            cpu: "250Mi"
           limits:
             memory: "500Mi"
-            cpu: "1000m"
+            cpu: "750Mi"
         livenessProbe:
           httpGet:
             path: /healthz  # Replace with your health check endpoint
@@ -48,7 +48,7 @@ spec:
         resources:
           requests:
             memory: "256Mi"
-            cpu: "1000m"
+            cpu: "500m"
           limits:
             memory: "500Mi"
-            cpu: "1500m"
+            cpu: "1000m"
