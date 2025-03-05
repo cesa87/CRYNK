@@ -29,13 +29,13 @@ spec:
             cpu: "750Mi"
         livenessProbe:
           httpGet:
-            path: /healthz  # Replace with your health check endpoint
+            path: /healthz
             port: 8080
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
           httpGet:
-            path: /healthz  # Replace with your health check endpoint
+            path: /healthz
             port: 8080
           initialDelaySeconds: 5
           periodSeconds: 10
