@@ -48,10 +48,10 @@ jobs:
 
       - name: Build and Push Docker Image to GCR
         run: |
-          cd backend
           GCR_REPOSITORY=gcr.io/${{ secrets.GCP_PROJECT_ID }}/crynk-backend
           IMAGE_TAG=$(git rev-parse --short HEAD)
-          sed -i "s|image:.*|image: $GCR_REPOSITORY:$IMAGE_TAG|" k8s/backend-deployment.yaml
+          sed -i "s|image:.*|image: $GCR_REPOSITORY:$IMAGE_TAG|" backend/k8s/backend-deployment.yaml
+          cd backend
           docker build -t $GCR_REPOSITORY:$IMAGE_TAG .
           docker push $GCR_REPOSITORY:$IMAGE_TAG
 
