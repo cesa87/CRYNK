@@ -21,13 +21,13 @@ spec:
             cpu: "250m"  # Fixed
           limits:
             memory: "500Mi"
-            cpu: "750m"  # Fixed
+            cpu: "500m"  # Fixed
         # ... rest unchanged
       - name: cloud-sql-proxy
         resources:
           requests:
             memory: "256Mi"
-            cpu: "500m"
+            cpu: "128m"
           limits:
             memory: "500Mi"
             cpu: "1000m"
