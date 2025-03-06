@@ -25,11 +25,3 @@ spec:
         # ... rest unchanged
       - name: cloud-sql-proxy
         image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:latest
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "128m"
-          limits:
-            memory: "500Mi"
-            cpu: "128m"
-        # ... rest unchanged
