@@ -18,7 +18,7 @@ spec:
         resources:
           requests:
             memory: "256Mi"
-            cpu: "250m"  # Fixed
+            cpu: "150m"  # Fixed
           limits:
             memory: "500Mi"
             cpu: "150m"  # Fixed
