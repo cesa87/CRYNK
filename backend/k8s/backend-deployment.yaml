@@ -40,7 +40,7 @@ spec:
             cpu: "100m"
           limits:
             memory: "500Mi"
-            cpu: "500m"
+            cpu: "250m"
         args:
         - "crynk-452620:us-central1:crynk-mysql-db"
         - "--structured-logs"
