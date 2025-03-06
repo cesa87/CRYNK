@@ -27,6 +27,11 @@ spec:
           value: "mysql://crynk:1NeSSie$21987@localhost/crynk"
         ports:
         - containerPort: 8080
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
       - name: cloud-sql-proxy
         image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:latest
         resources:
@@ -37,6 +42,6 @@ spec:
             memory: "500Mi"
             cpu: "500m"
         args:
+        - "crynk-452620:us-central1:crynk-mysql-db"
         - "--structured-logs"
         - "--port=3306"
-        - "crynk-452620:us-central1:crynk-mysql-db"
