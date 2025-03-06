@@ -58,5 +58,5 @@ jobs:
       - name: Deploy to GKE
         run: |
           gcloud container clusters get-credentials crynk-cluster --zone=us-central1-a
-          kubectl apply -f backend/k8s/backend-deployment.yaml
-          kubectl apply -f backend/k8s/backend-service.yaml
+          kubectl apply -f k8s/backend-deployment.yaml
+          kubectl apply -f k8s/backend-service.yaml
